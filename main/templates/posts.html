@@ -1,0 +1,11 @@
+{% for post in posts %}
+    <article>
+        <h1>{{ post.title }}</h1>
+        {{ post.text }}
+
+        <footer>
+            <p>Posted on: {{ post.date_posted }}</p>
+        </footer>
+
+    </article>
+{% endfor %}

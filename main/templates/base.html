@@ -1,0 +1,37 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
+
+        <title>I'm a blog! I'm hip!</title>
+
+</head>
+
+<body>
+
+        <h1>This is a blog. A blog, this is. Holy shit what a blog.</h1>
+        <hr>
+
+        <button id="load-posts">Load posts?</button>
+
+        <img id="loader" src="{% static 'img/g0v.gif' %}">
+
+        <div id="posts"></div>
+
+
+{% block content %}
+{% endblock %}
+
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="{% static 'js/blog.js' %}"></script>
+</body>
+
+</html>
+
+
+
+
+
