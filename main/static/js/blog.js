@@ -63,23 +63,23 @@ $('#post-form').submit(function(e) {
 
 
 function loadPosts() {
-    $('#loader').show();
+    // $('#loader').show();
 
     $.ajax({
-            url: '/blog/posts/',
+            url: '/blog/post-previews/',
             success: function(result) {
-                $('#loader').hide();
+                // $('#loader').hide();
 
                 $(result).each(function() {
-                    console.log(this);
+                    // console.log(this);
 
-                    var article = "<article><h1>" +
-                    this.fields.title + "</h1>" +
-                    this.fields.text +
-                    "<footer><p>Posted on: " +
-                    this.fields.date_posted + "</p><button class='delete'>Delete</button></footer></article>";
+                    // var article = "<article><h1>" +
+                    // this.fields.title + "</h1>" +
+                    // this.fields.text +
+                    // "<footer><p>Posted on: " +
+                    // this.fields.date_posted + "</p><button class='delete'>Delete</button></footer></article>";
 
-                    $('#posts').append(article);
+                    $('#post-previews').prepend(result);
 
                 })
 

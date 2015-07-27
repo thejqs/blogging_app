@@ -10,7 +10,7 @@ import json
 
 
 def initial(request):
-    return render(request, 'base.html')
+    return render(request, 'index.html')
 
 
 def all_posts(request):
@@ -20,6 +20,12 @@ def all_posts(request):
     post_json = serializers.serialize('json', posts)
 
     return HttpResponse(post_json, content_type="application/json", status=200)
+
+
+def post_previews(request):
+    posts = Post.objects.all().order_by('-date_posted')
+
+    return render(request, 'post-preview.html', {'posts': posts})
 
 
 def create_post(request):
@@ -40,7 +46,10 @@ def edit_post(request, id):
     if request.method == 'DELETE':
         Post.objects.get(id=id).delete()
         return HttpResponse(status=204)
-    return render(request, 'posts.html', {'posts': [post]})
+
+    elif request.method == 'GET':
+        post = Post.objects.get(id=id)
+        return render(request, 'post.html', {'post': post})
 
 
 def bootstrap(request):
