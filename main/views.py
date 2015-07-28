@@ -150,4 +150,5 @@ def bootstrap(request):
 @login_required
 @user_passes_test(is_employee)
 def post_admin(request):
-    return render(request, 'post_admin.html', {})
+    posts = Post.objects.all().order_by('-date_posted')
+    return render(request, 'post_admin.html', {'posts': posts})

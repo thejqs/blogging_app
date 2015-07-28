@@ -10,6 +10,8 @@
             <form id="user-login-form" method="POST" action="{% url 'login' %}" class="col-sm-offset-3 col-sm-6" style="{% if error_on_create %}display:none{% endif %}">
                 {% if error %} <p class="text-danger">{{ error }}</p>{% endif %}
                 {% csrf_token %}
+
+                    <input type="hidden" name="type" value="login">
                 <div class="form-group">
                     <label>Username</label>
                     <input class="form-control" type="text" name="username">
