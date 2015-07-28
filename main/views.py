@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core import serializers
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
@@ -51,6 +51,9 @@ def login(request):
             if full_user_create_form.is_valid():
                 user = full_user_create_form.save()
 
+                group = Group.objects.get(name="users")
+                group.user_set.add(user)
+                
                 user = authenticate(username=user.username, password=request.POST['password1'])
 
                 auth_login(request, user)
