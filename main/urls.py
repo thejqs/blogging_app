@@ -3,6 +3,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', 'main.views.initial', name="initial"),
+    url(r'^login/$', 'main.views.login', name="login"),
+    url(r'^logout/$', 'main.views.logout', name="logout"),
     url(r'^posts/$', 'main.views.all_posts', name="posts"),
     url(r'^post-previews/$', 'main.views.post_previews', name="post_previews"),
     url(r'^posts/(?P<id>[0-9]+)/$', 'main.views.edit_post', name='edit_post'),

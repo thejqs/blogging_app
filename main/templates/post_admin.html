@@ -1,17 +1,19 @@
+{% extends "admin_base.html" %}
 {% load staticfiles %}
 
-
- <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    
+{% block content %}
+        
 
 <div class="container-fluid">
 <div id="wrapper" class="col-md-offset-3 col-md-6">
 
         <h1>TYPE SOMETHING NEW. REALLY, REALLY NEW.</h1>
         <hr>
-        <form id="post-form">
+        <div>{{ message }}</div>
+        <form id="post-form" enctype="multipart/form-data" action="{% url 'create_post' %}" method="POST">
                 {% csrf_token %}
+
+                <input type="hidden" name="author" value="1">
 
                 <div class="form-group">
                 <label>Title</label>
@@ -20,7 +22,7 @@
                 </br>
                 <div class="form-group">
                 <label>Content</label>
-                <textarea name="post-content"></textarea>
+                <textarea name="text"></textarea>
                 </br>
                 </div>             
 
@@ -29,10 +31,16 @@
         </br>
         </br>
 
+        <div class="form-class">
+        <label for="exampleInputFile">Featured image</label>
+                <input type="file" name="featured_image" id="exampleInputFile">
+                <p class="help-block">File for the header of the post</p>
+                
+        </div>
+
 </div>
 </div>
 </form>
 
 
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="{% static 'js/blog.js' %}"></script>
+{% endblock %}

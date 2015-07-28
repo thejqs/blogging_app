@@ -1,7 +1,34 @@
+/**********LOGIN-CREATE***********/
+$('#switch-to-create').click(function(e) {
+    e.preventDefault();
+
+    $('#user-login-form').fadeOut(function() {
+        $('#user-create-form').fadeIn()
+    });
+
+})
+
+$('#switch-to-login').click(function(e) {
+    e.preventDefault();
+
+    $('#user-create-form').fadeOut(function() {
+        $('#user-login-form').fadeIn();
+    });
+    
+})
+
+
 <!-- // alert('this is working'); -->
-loadPosts();
+var page = 0;
+
+loadPosts(page);
 
 $('#load-posts').click(loadPosts);
+
+
+
+
+/****************DELETE POST************/
 
 $('#posts').on('click', '.delete', function() {
 <!--    // alert('clicked delete'); -->
@@ -33,44 +60,66 @@ $('#posts').on('click', '.delete', function() {
 });
 
 
+/**********LOADING POSTS*******/
 
-$('#post-form').submit(function(e) {
-
-        e.preventDefault();
-
-        // alert('Form was submitted');
-
-        var title = $('#post-form input[name="title"]').val();
-        var text = $('#post-form textarea[name="post-content"]').val();
-        var csrf = $('#post-form input[name="csrfmiddlewaretoken"]').val();
-
-        $.ajax({
-            url: '/blog/create-post/',
-            method: 'POST',
-            data:  {
-                'title': title,
-                'text': text,
-                'csrfmiddlewaretoken': csrf
-            },
-            success: function(result) {
-                $('#posts').prepend(result);
-            }
-
-        })
+$('#older-posts').click(function(e) {
+    e.preventDefault()
+    page++
+    loadPosts(page);
 
 });
 
 
 
+// $('#post-form').submit(function(e) {
+
+//         e.preventDefault();
+
+//         // alert('Form was submitted');
+
+//         var title = $('#post-form input[name="title"]').val();
+//         var text = $('#post-form textarea[name="text"]').val();
+//         var csrf = $('#post-form input[name="csrfmiddlewaretoken"]').val();
+
+//         $.ajax({
+//             url: '/blog/create-post/',
+//             method: 'POST',
+//             data:  {
+//                 'title': title,
+//                 'text': text,
+//                 'csrfmiddlewaretoken': csrf
+//             },
+//             success: function(result) {
+//                 $('#posts').prepend(result);
+//             }
+
+//         })
+
+// });
+
+
+
 function loadPosts() {
     // $('#loader').show();
-
     $.ajax({
             url: '/blog/post-previews/',
+            data: {
+                page: page
+            },
             success: function(result) {
+                console.log(result.length)
+
+                if (result.length === 0) {
+                    $('#post-previews').append("Sorry, no more posts")
+                    $('#older-posts').hide();
+                } else {
+                    $('#post-previews').append(result);
+
+            }
+
+
                 // $('#loader').hide();
 
-                $(result).each(function() {
                     // console.log(this);
 
                     // var article = "<article><h1>" +
@@ -79,9 +128,8 @@ function loadPosts() {
                     // "<footer><p>Posted on: " +
                     // this.fields.date_posted + "</p><button class='delete'>Delete</button></footer></article>";
 
-                    $('#post-previews').prepend(result);
 
-                })
+            
 
                 // $('#posts').html(result);
             }
