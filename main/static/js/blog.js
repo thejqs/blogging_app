@@ -62,10 +62,10 @@ $('.edit-post-link').click(function(e) {
 $('#cancel-button').click(function(e) {
         e.preventDefault();
 
-        $('#post-form input[name="author"]').val('')
+        $('#post-form input[name="author"]').val(global_author)
         $('#post-form input[name="title"]').val('')
         $('#post-form textarea[name="text"]').val('')
-        $('#post-form input[name="id"]').val(global_author)
+        $('#post-form input[name="id"]').val('')
         $('#featured-image-form').attr('src', '').hide()
 
         $('#submit-button').html("Give up. Just give up.")
