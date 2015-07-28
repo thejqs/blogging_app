@@ -26,6 +26,53 @@ loadPosts(page);
 $('#load-posts').click(loadPosts);
 
 
+/**************POST ADMIN **************/
+
+$('.edit-post-link').click(function(e) {
+    e.preventDefault();
+    var id = $(this).attr('data-post-id');
+
+    $.get('/blog/posts/' + id + '/json/', function(result) {
+        console.log(result)
+
+        $('#submit-button').html('WHY DO YOU WANT ME TO CHANGE?');
+        $('#cancel-button').show();
+
+        var text = result[0].fields.text
+        var title = result[0].fields.title
+        var id = result[0].pk
+        var author = result[0].fields.author
+        var featured_image = result[0].fields.featured_image
+
+        $('#post-form input[name="author"]').val(author)
+        $('#post-form input[name="title"]').val(title)
+        $('#post-form textarea[name="text"]').val(text)
+        $('#post-form input[name="id"]').val(id)
+
+        if (featured_image.length > 0) {
+            $('#featured-image-form').attr('src', '/media/' + featured_image).show();
+
+        } else{
+            $('#featured-image-form').attr('src', '').hide();
+        }
+
+    });
+});
+
+$('#cancel-button').click(function(e) {
+        e.preventDefault();
+
+        $('#post-form input[name="author"]').val('')
+        $('#post-form input[name="title"]').val('')
+        $('#post-form textarea[name="text"]').val('')
+        $('#post-form input[name="id"]').val(global_author)
+        $('#featured-image-form').attr('src', '').hide()
+
+        $('#submit-button').html("Give up. Just give up.")
+        $('#cancel-button').hide()
+
+});
+
 
 
 /****************DELETE POST************/

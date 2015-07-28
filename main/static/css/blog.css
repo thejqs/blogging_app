@@ -18,3 +18,12 @@
     display: none;
 }
 
+#featured-image-form {
+    display: none;
+    width: 100px;
+    height: auto;
+}
+
+#cancel-button {
+    display: none;
+}

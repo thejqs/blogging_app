@@ -103,34 +103,41 @@ def post_previews(request):
         return HttpResponse('')
 
 
-@login_required
-def create_post(request):
-    # title = request.POST['title']
-    # text = request.POST['text']
+# @login_required
+# def create_post(request):
+#     # title = request.POST['title']
+#     # text = request.POST['text']
 
-    # user = User.objects.all().first()
+#     # user = User.objects.all().first()
 
-    form = PostForm(request.POST, request.FILES)
+#     id = request.POST.get('id')
 
-    # import pdb; pdb.set_trace()
+#     if id:
+#         post = Post.objects.get(id=id)
+#         form = PostForm(request.POST, request.FILES, instance=post)
 
-    # form.author = user.id
+#     else:
+#         form = PostForm(request.POST, request.FILES)
 
-    if form.is_valid():
-        post = form.save()
-        message = "Your post has been saved"
+#     # import pdb; pdb.set_trace()
 
-    else: 
-        message = form.errors
+#     # form.author = user.id
 
-    # post = Post.objects.create(
-    #         title=title,
-    #         text=text,
-    #         author=user
-    #     )
-    # return render(request, 'posts.html', {'posts': [post]})
-    # return redirect('post_admin')
-    return render (request, 'post_admin.html', {'message': message})
+#     if form.is_valid():
+#         post = form.save()
+#         message = "Your post has been saved"
+
+#     else:
+#         message = form.errors
+
+#     # post = Post.objects.create(
+#     #         title=title,
+#     #         text=text,
+#     #         author=user
+#     #     )
+#     # return render(request, 'posts.html', {'posts': [post]})
+#     # return redirect('post_admin')
+#     return render(request, 'post_admin.html', {'message': message})
 
 
 def edit_post(request, id):
@@ -150,5 +157,38 @@ def bootstrap(request):
 @login_required
 @user_passes_test(is_employee)
 def post_admin(request):
+
     posts = Post.objects.all().order_by('-date_posted')
+
+    context = {'posts': posts}
+
+    if request.method == 'POST':
+
+        id = request.POST.get('id')
+
+        if id:
+            post = Post.objects.get(id=id)
+            form = PostForm(request.POST, request.FILES, instance=post)
+
+        else:
+            form = PostForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            post = form.save()
+            context['message'] = "Your post has been saved."
+        else:
+            context['message'] = form.errors
+
+
     return render(request, 'post_admin.html', {'posts': posts})
+
+
+@login_required
+@user_passes_test(is_employee)
+def post_json(request, id):
+
+    post = Post.objects.get(id=id)
+    post_json = serializers.serialize('json', [post])
+
+    return HttpResponse(post_json, content_type='application/json')
+
