@@ -51,14 +51,16 @@
 <div class="row">
         <ul class="col-sm-offset-1 col-sm-10">
                 {% for post in posts %}
-                <li><a class="edit-post-link" data-post-id="{{ post.id }}" href="#">{{ post.title }}</a></li>
+                <li data-post-id="{{ post.id }}">
+                <a class="edit-post-link" href="#">{{ post.title }}</a>
+                <a class="delete-post-link text-danger" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                </li>
 
                 {% endfor %}
         </ul>
 </div>
 
-<script type="text/javascript"></script>
-        var global_author = {{ user.id }}
+<script type="text/javascript">var global_author = {{ user.id }}</script>
 
 
 {% endblock %}
